@@ -5,6 +5,7 @@ import NavigationDrawer from './components/NavigationDrawer'
 import Vpndetector from './components/VpnDetection/vpndetector'
 import Whois from './components/Whois/whois'
 import Advance from './components/advance'
+import Analytics from "./components/Analytics/analytics"
 import LoadingContextProvider from "./Context/LoadingContext";
 import Spinner from "./components/Feedbacks/Spinner";
 import SnackBar from "./components/Feedbacks/SnackBar";
@@ -42,9 +43,10 @@ function App() {
             <Route path="/" exact component={Vpndetector} />
             <Route path="/whois" exact component={Whois} />
             <Route path="/advancesearch" exact component={Advance} />
+            <Route path="/analytics" exact component={Analytics} />
           </main>
           <Spinner />
-          <SnackBar/>
+          <SnackBar />
         </LoadingContextProvider>
 
       </div>

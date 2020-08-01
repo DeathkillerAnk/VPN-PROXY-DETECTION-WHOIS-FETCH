@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useLocation, useHistory } from "react-router-dom";
-import { VpnKeyRounded as VpnIcon, SearchRounded as WhoisIcon, LocationSearchingRounded as AdvanceSearchIcon } from "@material-ui/icons"
+import { VpnKeyRounded as VpnIcon, SearchRounded as WhoisIcon, LocationSearchingRounded as AdvanceSearchIcon, TimelineRounded as AnalyticsIcon } from "@material-ui/icons"
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -72,7 +72,7 @@ export default function NavigationDrawer(props) {
         history.push(route);
     }
 
-    const menuItems = [{ text: "VPN Detector", path: "/", icon: <VpnIcon /> }, { text: "Fetch Whois", path: "/whois", icon: <WhoisIcon /> }, { text: "Advance Scan", path: "/advancesearch", icon: <AdvanceSearchIcon /> }];
+    const menuItems = [{ text: "VPN Detector", path: "/", icon: <VpnIcon /> }, { text: "Fetch Whois", path: "/whois", icon: <WhoisIcon /> }, { text: "Advance Scan", path: "/advancesearch", icon: <AdvanceSearchIcon /> }, { text: "Analytics", path: "/analytics", icon: <AnalyticsIcon /> }];
 
 
     const drawer = (
