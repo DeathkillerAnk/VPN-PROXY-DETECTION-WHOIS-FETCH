@@ -81,7 +81,8 @@ router.route('/checkcidr').post(async (req, res) => {
         const pythonExec = exec(`python ./scripts/checkIp.py ${host}`, { cwd: "./MLServerCode/" }, function (err, stdout, stderr) {
             if (stdout) {
                 dataToSend = stdout;
-                res.json({ checkIp: dataToSend })
+                dataToSend = dataToSend == 'true' ? 1 : 0;
+                res.json({ result: dataToSend });
                 return;
             }
             else if (err) {
@@ -130,7 +131,7 @@ router.route('/qualityscore').post(async (req, res) => {
         axios.get(toCheck)
             .then(response=>{
                 // console.log(response.data);
-                res.json({qualityscore:response.data});
+                res.json({ result: response.data });
             })
             .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
 
@@ -157,7 +158,7 @@ router.route('/intelscore').post(async (req, res) => {
         axios.get(toCheck)
             .then(response=>{
                 // console.log(response.data);
-                res.json({intelscore:response.data});
+                res.json({ result: response.data });
             })
             .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
 
