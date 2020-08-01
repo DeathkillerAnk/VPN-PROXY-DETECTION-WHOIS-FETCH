@@ -1,0 +1,67 @@
+.whoisdisplay{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .card3
+  {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    width: 100%;
+    margin-top: 5pxpx;
+    height: 100%;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+  .card3 p{
+    font-size: 15px;
+      margin-top: 20px;
+      margin-left: 0px;
+  }
+  .card3 li{
+    margin-top: 20px;
+    margin-left: 10px;
+  
+  }
+  .whocolumn1
+  {
+    width: 45%;
+    
+  }
+  .whocolumn1 li{
+    margin-left: 50px;
+  }
+  .whocolumn2
+  {
+    width: 100%;
+  
+  }
+  .whocolumn2 li{
+    font-stretch: ultra-condensed;
+  }
+  
+  .whoisdisplay .searchbar{
+    margin-left: 41;
+  }
+  .dd{
+    font-size: 35px;
+    margin-top: 4rem;
+    color: #888888;
+  }
+  .whois-table {
+    table-layout: fixed;
+    overflow: auto;
+    width: 100%;
+    padding-left: 15px;
+    padding-top: 20px;
+  }
+  .whois-table th, .whois-table td{
+      text-align: left;
+      height: 35px;
+      font-style: normal;
+      padding-left: 10px;
+      padding-right: 20px;
+      width: 40px;
+   
+}

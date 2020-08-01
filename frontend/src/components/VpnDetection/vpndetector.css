@@ -1,0 +1,99 @@
+.info{
+    display: flex;
+}
+.card{
+   border-style: ridge;
+   border-width: 1px;
+   border-color: rgb(0, 0, 51);
+   width: 28rem;
+   display: flex;
+   flex-direction: row;
+   margin-top: 5rem;
+   height: 31rem;
+   margin-left: 120px;
+   border-radius: 10px;
+   background-color: white;
+  
+   
+}
+.column1{
+ margin-left: 30px;
+ margin-top: 25px;
+}
+.column2{
+ margin-left: 60px;
+ margin-top: 25px;
+}
+p{
+ margin-bottom: 20px;
+}
+
+.meterbox
+{
+   height:160px;
+   width: 160px;
+   margin-top: 0rem;
+   
+   background-color: white;
+   border-radius: 10rem;
+}
+.metertext{
+   margin-top: 20px;
+   font-size: 20px;
+}
+
+.mapbox{
+   margin-top:6rem;
+   height: 10rem;
+   width: 28rem;
+   margin-left: 12rem;
+   
+}
+
+.card2
+{
+   margin-top: 5rem;
+   margin-left: 60px;
+   width: 28rem;
+   height: 31rem;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   border-radius: 10px;
+  
+   
+ 
+}
+
+
+
+.vpn1{
+ display: flex;
+ flex-direction: column;
+}
+.vpn2
+{
+ display: flex;
+ flex-direction: row;
+
+}
+
+.map1{
+      height: 10px;
+}
+
+.vpntable
+{
+   width: 100%;
+   padding-left: 15px;
+   padding-top: 20px;
+}
+.vpntable th, .vpntable td{
+      text-align: left;
+      height: 35px;
+      font-style: normal;
+      padding-left: 10px;
+      width: 40px;
+   
+}
+
