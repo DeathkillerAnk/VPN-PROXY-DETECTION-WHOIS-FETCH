@@ -3,7 +3,8 @@ const router = require('express').Router();
 // const path = require('path')
 const nmap = require('libnmap');
 const { spawn, exec, execFile } = require('child_process');
-
+const { response } = require('express');
+axios = require('axios');
 
 const checkIp = './MLServerCode/scripts/checkIp.py'
 const predict = './MLServerCode/scripts/predict.py'
@@ -63,11 +64,11 @@ router.route('/vpnports').post(async (req, res) => {
 });
 
 
-/**ML running
+/**ML running for ip cidr
  * 
  * @param {String} hostipaddr 
  */
-router.route('/checkip').post(async (req, res) => {
+router.route('/checkcidr').post(async (req, res) => {
     try {
         let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
         if (!host) {
@@ -112,6 +113,59 @@ router.route('/checkip').post(async (req, res) => {
 
 });
 
+/**  gives ip type & fraud score
+*
+* @param {string} host
+*/
+router.route('/qualityscore').post(async (req, res) => {
+    try {
+        let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
+        if (!host) {
+            return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
+        }
+        
+        // let key = mcfLlGm2jceQIvqZpc4hmKzkLuuUHtK8;
+        let toCheck = 'https://ipqualityscore.com/api/json/ip/zUqnfFUGTHCSwQOF7TO3mb8oJHf5JF0E/'+host;
+        
+        axios.get(toCheck)
+            .then(response=>{
+                // console.log(response.data);
+                res.json({qualityscore:response.data});
+            })
+            .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
+
+    } catch (error) {
+        res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
+    }
+
+});
+
+/**  ML intel score
+*
+* @param {string} host
+*/
+router.route('/intelscore').post(async (req, res) => {
+    try {
+        let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
+        if (!host) {
+            return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
+        }
+        
+        // let key = mcfLlGm2jceQIvqZpc4hmKzkLuuUHtK8;
+        let toCheck = 'http://check.getipintel.net/check.php?ip='+host+'&contact=aniket.g@gmail.com';
+        
+        axios.get(toCheck)
+            .then(response=>{
+                // console.log(response.data);
+                res.json({intelscore:response.data});
+            })
+            .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
+
+    } catch (error) {
+        res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
+    }
+
+});
 
 
 module.exports = router;
