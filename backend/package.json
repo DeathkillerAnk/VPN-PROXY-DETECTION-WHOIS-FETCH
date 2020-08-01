@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "ip2proxy-nodejs": "^2.2.0",
     "libnmap": "^0.4.19",
     "whois-json": "^2.0.4"
   }

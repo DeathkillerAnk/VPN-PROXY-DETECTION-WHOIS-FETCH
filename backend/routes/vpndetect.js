@@ -85,12 +85,8 @@ router.route('/vpnports').post(async (req, res) => {
                 //     res.json({response:report[item].host.ports[0].port});
                     
                 // }
-
-                
                 
             }
-
-
         });
 
 
@@ -207,27 +203,25 @@ router.route('/intelscore').post(async (req, res) => {
 
 //local search
 
-ip2proxy.Open("./IP2PROXY-IP-COUNTRY.BIN");
+ip2proxy.Open("../data/IP2PROXY-IP-COUNTRY.BIN");
 /**  local search
 *
 * @param {string} host
 */
-router.route('/localsearchbin').post(async (req, res) => {
+router.route('/ipsearch').post(async (req, res) => {
     try {
         let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
         if (!host) {
             return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
         }
         
+        isProxy = ip2proxy.isProxy(host)
         // let key = mcfLlGm2jceQIvqZpc4hmKzkLuuUHtK8;
-        let toCheck = 'http://check.getipintel.net/check.php?ip='+host+'&contact=aniket.g@gmail.com';
-        
-        axios.get(toCheck)
-            .then(response=>{
-                // console.log(response.data);
-                res.json({intelscore:response.data});
-            })
-            .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
+        console.log("isProxy: " + ip2proxy.isProxy(host));
+        console.log("GetModuleVersion: " + ip2proxy.getModuleVersion());
+        console.log("GetPackageVersion: " + ip2proxy.getPackageVersion());
+        console.log("GetDatabaseVersion: " + ip2proxy.getDatabaseVersion());
+        res.json({isProxy:isProxy});
 
     } catch (error) {
         res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
