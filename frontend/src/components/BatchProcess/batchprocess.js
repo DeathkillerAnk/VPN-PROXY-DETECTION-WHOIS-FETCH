@@ -41,10 +41,22 @@ export default class BatchProcess extends Component {
         });
         console.log(event.target.files[0]);
     });
+
+    printDiv = function (divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+
     render() {
         return (
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} className="text-center">
+                <Grid item xs={12} md={6} className="text-center">
                     <input
 
                         style={{ display: "none" }}
@@ -66,10 +78,12 @@ export default class BatchProcess extends Component {
                         }}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} className="text-center">
+                <Grid item xs={12} md={6} className="text-center">
                     <Button size="large" variant="contained" color="primary" onClick={this.handleSubmit}>Process</Button>
+                    <Button size="large" className="ml-5" variant="contained" onClick={this.printDiv.bind(this, 'printarea')}>Print Report</Button>
+
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} id="printarea">
                     <TableContainer component={Paper}>
                         <Table aria-lable="batch-processed-info">
                             <TableHead>
