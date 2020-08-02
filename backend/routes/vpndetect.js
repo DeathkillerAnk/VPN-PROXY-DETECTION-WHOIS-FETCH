@@ -5,11 +5,12 @@ const nmap = require('libnmap');
 const { spawn, exec, execFile } = require('child_process');
 const { response } = require('express');
 axios = require('axios');
+var ip2proxy = require("ip2proxy-nodejs");
 
 const checkIp = './MLServerCode/scripts/checkIp.py'
 const predict = './MLServerCode/scripts/predict.py'
 
-/**vpn port scan
+    /**vpn port scan
      * 
      * @param {String} url 
      */
@@ -24,8 +25,8 @@ router.route('/vpnports').post(async (req, res) => {
         const opts = {
             json: true,
             range: [host],
-            ports: '1723,1701,500,4500,1194,443'
-            // verbose: true,
+            ports: '1723,1701,500,4500,1194,443',
+            verbose: true,
             // ports: '1-65535',
         };
 
@@ -38,22 +39,54 @@ router.route('/vpnports').post(async (req, res) => {
                 res.status(500).json({ msg: "Some error occured", err: err.message })
             }
 
-
+            
 
             for (let item in report) {
-                // console.log(JSON.stringify(report[item].host, null, 2));
+                if(report[item].runstats[0].hosts[0].item.up == "1"){
+                    // console.log(JSON.stringify(report[item].runstats[0].hosts[0].item.up, null, 2), "sent stats");
+                    // console.log(JSON.stringify(report[item], null, 2), "print");
 
+                    // console.log("sent");
+
+                    /**
+                     * hostname is array of hostnames with item object, name & type as child key
+                     * "hostname": [
+                            {
+                            "item": {
+                                "name": "oushu.schotomacs.com",
+                                "type": "PTR"
+                            }
+                            }
+                        ]
+                     * 
+                     * 
+                     * 
+                     * 
+                     */
+                    res.json({
+                            ports:report[item].host[0].ports[0].port,
+                            hostname:report[item].host[0].hostnames[0].hostname,
+                            status: "up"
+                        });
+                }
+                else{
+                    res.json({ status: "down" });
+                }
+                // console.log(JSON.stringify(report[item].runstats[0].hosts[0].item.up, null, 2), "out");
+                // console.log(report[item].host.status[0].item.state)
 
                 // if host is down
-                if (report[item].host[0].status[0].item.state !== "up") {
-                    res.json({ status: "Down" });
-                }
-
-                //response is here
-                res.json(report[item].host[0].ports[0].port);
+                // if (report[item].host.status[0].item.state !== "down" || report[item]) {
+                //     console.log(report[item],"down");
+                //     res.json({ status: "Down" });
+                // }else{
+                //     //response is here
+                //     console.log("sent");
+                //     res.json({response:report[item].host.ports[0].port});
+                    
+                // }
+                
             }
-
-
         });
 
 
@@ -161,6 +194,34 @@ router.route('/intelscore').post(async (req, res) => {
                 res.json({ result: response.data });
             })
             .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
+
+    } catch (error) {
+        res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
+    }
+
+});
+
+//local search
+
+ip2proxy.Open("../data/IP2PROXY-IP-COUNTRY.BIN");
+/**  local search
+*
+* @param {string} host
+*/
+router.route('/ipsearch').post(async (req, res) => {
+    try {
+        let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
+        if (!host) {
+            return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
+        }
+        
+        isProxy = ip2proxy.isProxy(host)
+        // let key = mcfLlGm2jceQIvqZpc4hmKzkLuuUHtK8;
+        console.log("isProxy: " + ip2proxy.isProxy(host));
+        console.log("GetModuleVersion: " + ip2proxy.getModuleVersion());
+        console.log("GetPackageVersion: " + ip2proxy.getPackageVersion());
+        console.log("GetDatabaseVersion: " + ip2proxy.getDatabaseVersion());
+        res.json({isProxy:isProxy});
 
     } catch (error) {
         res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });

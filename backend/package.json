@@ -18,6 +18,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.9",
+    "ip2proxy-nodejs": "^2.2.0",
     "libnmap": "^0.4.19",
     "whois-json": "^2.0.4"
   }
