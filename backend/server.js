@@ -20,12 +20,14 @@ const whois = require('./routes/whois');
 const vpndetect = require('./routes/vpndetect');
 const batchProcess = require('./routes/batchProcess');
 const analytics = require('./routes/analytics');
+const advancedSearch = require('./routes/advancedSearch');
 
 
 app.use('/api/whois', whois);
 app.use('/api/vpndetect', vpndetect);
 app.use('/api/batchprocess', batchProcess);
 app.use('/api/analytics', analytics);
+app.use('/api/advancedsearch', advancedSearch);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
