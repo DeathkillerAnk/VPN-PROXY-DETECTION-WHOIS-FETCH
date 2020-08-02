@@ -6,9 +6,11 @@ const { spawn, exec, execFile } = require('child_process');
 const { response } = require('express');
 axios = require('axios');
 var ip2proxy = require("ip2proxy-nodejs");
+const fs = require('fs');
 
 const checkIp = './MLServerCode/scripts/checkIp.py'
 const predict = './MLServerCode/scripts/predict.py'
+const listOfIps = './MLServerCode/scripts/ips.txt'
 
     /**vpn port scan
      * 
@@ -198,8 +200,11 @@ router.route('/intelscore').post(async (req, res) => {
             .then(response=>{
                 // console.log(response.data);
                 res.json({ result: response.data });
+                if(response.data > 0.5){
+                    fs.appendFileSync(listOfIps, host + '\n');
+                }
             })
-            .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
+            .catch(error=>{console.log(error);res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
 
     } catch (error) {
         res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });

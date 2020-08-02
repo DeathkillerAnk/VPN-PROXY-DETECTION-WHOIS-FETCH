@@ -19,7 +19,9 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.9",
     "ip2proxy-nodejs": "^2.2.0",
+    "json-to-csv": "^1.0.0",
     "libnmap": "^0.4.19",
+    "node-schedule": "^1.3.2",
     "whois-json": "^2.0.4"
   }
 }
