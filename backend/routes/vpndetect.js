@@ -1,5 +1,5 @@
 const vpnCheck = require('../utilities/vpnCheck')
-const utils = require('../utilities/utils')
+const {MLModel2Check, MLModel1Check} = require('../utilities/utils')
 const router = require('express').Router();
 // const path = require('path')
 const nmap = require('libnmap');
@@ -171,10 +171,8 @@ router.route('/qualityscore').post(async (req, res) => {
         }
         
         // let key = mcfLlGm2jceQIvqZpc4hmKzkLuuUHtK8;
-        let toCheck = 'https://ipqualityscore.com/api/json/ip/zUqnfFUGTHCSwQOF7TO3mb8oJHf5JF0E/'+host;
         
-        axios.get(toCheck)
-            .then(response=>{
+        MLModel2Check(host).then(response=>{
                 // console.log(response.data);
                 res.json({ result: response.data });
             })
@@ -198,10 +196,7 @@ router.route('/intelscore').post(async (req, res) => {
         }
         
         // let key = mcfLlGm2jceQIvqZpc4hmKzkLuuUHtK8;
-        let toCheck = 'http://check.getipintel.net/check.php?ip='+host+'&contact=aniket.g@gmail.com';
-        
-        axios.get(toCheck)
-            .then(response=>{
+        MLModel1Check(host).then(response => {
                 // console.log(response.data);
                 res.json({ result: response.data });
                 if(response.data > 0.5){
@@ -260,13 +255,13 @@ router.route('/checkorg').post(async (req, res) => {
         //     console.log(host);
         // }
         const result = await whoisjson(host);
-        const stringResult = {"orgName":result.orgName}
+        const stringResult = `{"orgName":"${result.orgName}"}`
 
         // res.json(stringResult);
 
         var dataToSend;
         // spawn new child process to call the python script
-        const pythonExec = exec(`python ./scripts/checkOrg.py ${stringResult}`, { cwd: "./MLServerCode/" }, function (err, stdout, stderr) {
+        const pythonExec = exec(`python ./scripts/checkOrg.py << ${stringResult}`, { cwd: "./MLServerCode/" }, function (err, stdout, stderr) {
             if (stdout) {
                 dataToSend = stdout;
                 dataToSend = dataToSend == 'true' ? 1 : 0;
@@ -300,6 +295,30 @@ router.route('/checkorg').post(async (req, res) => {
         res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
     }
 
+});
+router.post('/checkip', (req, res) => {
+    try {
+        let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
+        if (!host) {
+            return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
+        }
+        const data = fs.readFileSync(vpnIps, 'utf-8');
+        result = data.indexOf(host) > -1 ? 1 : 0;
+        res.json({ result: result });
+
+    } catch (error) {
+        res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
+
+    }
+});
+router.post('/checkonlinedata', (req, res) => {
+    let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
+    if (!host) {
+        return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
+    }
+    const data = fs.readFileSync(listOfIps, 'utf-8');
+    result = data.indexOf(host) > -1 ? 1:0;
+    res.json({result:result});
 });
 
 

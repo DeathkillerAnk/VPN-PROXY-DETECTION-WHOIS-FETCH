@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const schedule = require('node-schedule');
-const cronJob = require('./utilities/cronJob')
+const { genWhoisAndTrainModelCronJob, fetchOnlineDatasetsCronJob } = require('./utilities/cronJob')
 // require('dotenv').config();
 // const path = require('path')
 
@@ -33,7 +33,11 @@ app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
 
-var cron = schedule.scheduleJob('19 17 * * *', function () {
-    console.log("cron running");
-    cronJob();
+var cron1 = schedule.scheduleJob('10 * * * *', function () {
+    console.log("Fetch online dataset cron running");
+    fetchOnlineDatasetsCronJob();
+});
+var cron2 = schedule.scheduleJob('30 * * * *', function () {
+    console.log("Generate whois and train model cron running");
+    genWhoisAndTrainModelCronJob();
 });
