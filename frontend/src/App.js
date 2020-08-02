@@ -11,6 +11,7 @@ import Spinner from "./components/Feedbacks/Spinner";
 import SnackBar from "./components/Feedbacks/SnackBar";
 import axios from 'axios';
 import './App.css'
+import BatchProcess from './components/BatchProcess/batchprocess';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,7 @@ function App() {
             <div className={classes.toolbar} />
             <Route path="/" exact component={Vpndetector} />
             <Route path="/whois" exact component={Whois} />
+            <Route path="/batchprocess" exact component={BatchProcess} />
             <Route path="/advancesearch" exact component={Advance} />
             <Route path="/analytics" exact component={Analytics} />
           </main>
