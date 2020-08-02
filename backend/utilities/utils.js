@@ -1,4 +1,5 @@
-module.exports = {
+const whoisjson = require('whois-json');
+utils = {
     /**
      * 
      * @param {String} url 
@@ -33,5 +34,15 @@ module.exports = {
             return true;
         }
         return false
+    },
+
+    fetchWhois: async function (host) {
+        try {
+            const result = await whoisjson(host);
+            return result;
+        } catch (error) {
+            return false;
+        }
     }
 }
+module.exports = utils;
