@@ -96,4 +96,33 @@ p{
       width: 40px;
    
 }
+.detailscard
+{
+   display:flex;
+   flex-direction: row;
+}
+.detailscard .d2{
+   margin-left:60px;
+}
+.detailscard p{
+   margin-bottom: 0px;
+   margin-top: 0px;  
+   font-size: 15px; 
+}
+.detailscard .d1{
+   
+   margin-bottom: 15px;
+   margin-left: 30px;
+}
+
+.blinking{
+   animation:blinkingText 1.2s infinite;
+}
+@keyframes blinkingText{
+   0%{     color: #000;    }
+   49%{    color: #000; }
+   60%{    color: transparent; }
+   99%{    color:transparent;  }
+   100%{   color: #000;    }
+}
 

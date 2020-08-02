@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { Container, TextField, IconButton, InputAdornment, Grid, Paper, Typography, CircularProgress, Chip } from '@material-ui/core';
+import { Container, TextField, IconButton, InputAdornment, Grid, Paper, Typography, CircularProgress, Chip, Button } from '@material-ui/core';
 import { SearchRounded as SearchIcon } from "@material-ui/icons";
 import { LoadingContext } from "../../Context/LoadingContext"
 import "./vpndetector.css"
@@ -22,6 +22,7 @@ export default class Vpndetector extends Component {
                 ipType: "", //Good or bad
                 ipTypeColor: "", //green for good, red for bad
             },
+            nmapData: { status: "", ports: [] },
             feedbackData: {
                 showCheckIpSpinner: false,
                 showCheckCidrSpinner: false,
@@ -53,6 +54,7 @@ export default class Vpndetector extends Component {
     handleSubmit = () => {
         console.log("Running");
         this.fetchIpAdvancedDetails(this.state.vpnsearch);
+        this.fetchNmapData(this.state.vpnsearch);
         this.checkVpn(this.state.vpnsearch);
 
     }
@@ -63,6 +65,23 @@ export default class Vpndetector extends Component {
             [event.target.name]: event.target.value
         })
     });
+
+    fetchNmapData = async (ip) => {
+        try {
+            this.context.showSpinner();
+            const { data, status } = await axios.post('/api/vpndetect/vpnports', { host: this.state.vpnsearch }, { validateStatus: () => true });
+            this.context.hideSpinner();
+            if (status !== 200) {
+                this.context.showSnackBar(data.msg);
+                return;
+            }
+            this.setState({ nmapData: data });
+            this.context.showSnackBar("Port scanning done");
+        } catch (error) {
+            this.context.showSnackBar("Error occured while scanning ports");
+        }
+
+    }
 
     checkCidr = async (ip) => {
         try {
@@ -126,11 +145,11 @@ export default class Vpndetector extends Component {
 
     checkThirdPartyDataset = async (ip) => {
         try {
-            let feedbackData = { ...this.state.feedbackData };
+            let feedbackData = this.state.feedbackData;
             feedbackData.showCheckThirdPartyDatasetSpinner = true;
             this.setState({ feedbackData: feedbackData });
 
-            const response = await axios.post('/api/vpndetect/checkip', { host: this.state.vpnsearch }, { validateStatus: () => true });
+            const response = await axios.post('/api/vpndetect/ipsearch', { host: this.state.vpnsearch }, { validateStatus: () => true });
             const { data, status } = response;
 
             feedbackData = { ...this.state.feedbackData };
@@ -142,6 +161,9 @@ export default class Vpndetector extends Component {
                 return;
             }
 
+            if (data.result != 1 || data.result != 0) {
+                data.result = undefined;
+            }
             feedbackData.checkThirdPartyDatasetValue = data.result;
             feedbackData.showCheckThirdPartyDatasetSpinner = false;
             this.setState({ feedbackData: feedbackData });
@@ -219,7 +241,7 @@ export default class Vpndetector extends Component {
 
     checkVpn = async (ip) => {
         try {
-            const queries = [this.checkCidr(ip), this.checkMLModel1(ip), this.checkMLModel2(ip)];
+            const queries = [this.checkCidr(ip), this.checkMLModel1(ip), this.checkMLModel2(ip), this.checkThirdPartyDataset(ip)];
             const allResponses = await Promise.all(queries);
             // =========== Calculating avg ===============
             let avgValScore = 0;
@@ -239,7 +261,6 @@ export default class Vpndetector extends Component {
             }
             avgValScore = avgValScore.toFixed(1);
             let tempVpnValue = avgValScore * 100;
-            this.context.showSnackBar("All done");
 
             // ============= Changing State ================
             const ipType = tempVpnValue <= 50 ? "Good" : "Bad";
@@ -297,6 +318,9 @@ export default class Vpndetector extends Component {
             const { data, status } = await axios.post('/api/vpndetect/qualityscore', { host: this.state.vpnsearch }, { validateStatus: () => true });
             this.context.hideSpinner();
             delete data.result.transaction;
+            delete data.result.connection_type;
+            delete data.result.abuse_velocity;
+            delete data.result.request_id;
             this.setState({ ipDetails: data.result, mapCity: data.result.city });
         } catch (error) {
             this.context.showSnackBar("Error occured while fetching IP Details")
@@ -304,10 +328,50 @@ export default class Vpndetector extends Component {
 
     }
 
+    printDiv = function (divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+    }
+
+    processPrint = () => {
+        var gAutoPrint = true;
+        if (document.getElementById != null) {
+            var html = '<HTML>\n<HEAD>\n';
+            if (document.getElementsByTagName != null) {
+                var headTags = document.getElementsByTagName("head");
+                if (headTags.length > 0) html += headTags[0].innerHTML;
+            }
+
+            html += '\n</HE' + 'AD>\n<BODY>\n';
+            var printReadyElem = document.getElementById("printMe");
+
+            if (printReadyElem != null) html += printReadyElem.innerHTML;
+            else {
+                alert("Error, no contents.");
+                return;
+            }
+
+            html += '\n</BO' + 'DY>\n</HT' + 'ML>';
+            var printWin = window.open("", "processPrint");
+            printWin.document.open();
+            printWin.document.write(html);
+            printWin.document.close();
+
+            if (gAutoPrint) printWin.print();
+        } else alert("Browser not supported.");
+
+    }
+
     render() {
         const { vpnsearch } = this.state
         return (
-            <Container>
+            <Container id="printarea">
                 <Grid container spacing={3}>
                     {/* =================== Search Field ====================== */}
                     <Grid item xs={12}>
@@ -338,7 +402,7 @@ export default class Vpndetector extends Component {
                         </div>
                     </Grid>
                     {/* ================== Meter For Bad Ip result ========================= */}
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12} md={6}>
                         <div className="text-center py-2">
                             <div className="meterbox mr-auto ml-auto">
                                 <CircularProgressbar
@@ -353,14 +417,30 @@ export default class Vpndetector extends Component {
                                     })}
                                 />
 
-                                <p>Percentage</p>
-                                {this.state.feedbackData.isResultFetched && <Typography variant="h5" style={{ color: `${this.state.result.ipTypeColor}` }}>{this.state.result.ipType}</Typography>}
-
                             </div>
+                            <p>Percentage</p>
+                            {this.state.feedbackData.isResultFetched && <Typography variant="h5" style={{ color: `${this.state.result.ipTypeColor}` }}>{this.state.result.ipType}</Typography>}
                         </div>
                     </Grid>
+                    {/* ============= Host Details =========================== */}
+                    <Grid item xs={12} md={6}>
+                        <Paper variant="outlined" className="p-2">
+                            <Typography className="text-center" variant="h5">Host details</Typography>
+                            <Typography variant="h6" className="blinking" >{this.state.nmapData.status}</Typography>
+                            {
+                                this.state.ipDetails.proxy !== undefined && (
+                                    <React.Fragment>
+                                        <Typography variant="subtitle1">Proxy: {"" + this.state.ipDetails.proxy}</Typography>
+                                        <Typography variant="subtitle1">VPN: {"" + this.state.ipDetails.vpn}</Typography>
+                                    </React.Fragment>
+                                )
+                            }
+                        </Paper>
+                        <Button size="large" className="mt-3" variant="contained" onClick={this.printDiv.bind(this, 'printarea')}>Print Report</Button>
+
+                    </Grid>
                     {/* ===================== Feddback for different Modules ====================== */}
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12}>
                         <Paper variant="outlined" className="p-3">
                             <p className="text-center"><Typography variant="h5">Detection Modules</Typography></p>
                             <Grid container spacing={2}>
@@ -377,6 +457,7 @@ export default class Vpndetector extends Component {
                             </Grid>
                         </Paper>
                     </Grid>
+                    {/* ==========  IP Details ============================ */}
                     <Grid item xs={12} md={6} >
 
                         {/*<Paper className="p-1">
@@ -420,8 +501,8 @@ export default class Vpndetector extends Component {
                                 </tr>
                             </table>
                         </Paper> */}
-                        <Paper variant="outlined">
-                            <Typography variant="h6">IP Details</Typography>
+                        <Paper variant="outlined" className="p-2">
+                            <Typography className="text-center" variant="h5">IP Detials</Typography>
                             <table className="vpntable text-break">
                                 {
                                     Object.keys(this.state.ipDetails).map(key => (
@@ -437,12 +518,34 @@ export default class Vpndetector extends Component {
                         </Paper>
 
                     </Grid>
+                    {/* =================== NMAP Details ================================== */}
                     <Grid item xs={12} md={6}>
+                        <Paper variant="outlined" className="p-2">
+                            <Typography className="text-center" variant="h5">Port Scan Detials</Typography>
+                            {this.state.nmapData.ports.map((nmap) =>
+                                <div className="detailscard">
+                                    <div className="d1">
+                                        <p>Protocol : {nmap.item.protocol}</p>
+                                        <p>Portid : {nmap.item.portid}</p>
 
+                                    </div>
+
+                                    <div className="d2">
+                                        <p>State: {nmap.state[0].item.state}</p>
+                                        <p>Service name : {nmap.service[0].item.name}</p>
+                                    </div>
+                                </div>
+
+                            )}
+
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12}>
                         <div id="map-container-google-1" class="z-depth-1-half map-container h-100" >
-                            <iframe title="Maps" width="100%" height="100%" src={`https://maps.google.com/maps?q=${this.state.mapCity}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameborder="0"
+                            <iframe title="Maps" width="100%" height="100%" style={{ minHeight: "500px" }} src={`https://maps.google.com/maps?q=${this.state.mapCity}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameborder="0"
                                 allowfullscreen></iframe>
                         </div>
+
 
                     </Grid>
                     <Grid item xs={6}>
