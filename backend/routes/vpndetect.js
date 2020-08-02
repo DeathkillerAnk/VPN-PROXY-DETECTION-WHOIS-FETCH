@@ -14,7 +14,6 @@ const fs = require('fs');
 const checkIp = './MLServerCode/scripts/checkIp.py'
 const predict = './MLServerCode/scripts/predict.py'
 const listOfIps = './MLServerCode/scripts/ips.txt'
-const whoisjson = require('whois-json');
 
 
     /**vpn port scan
@@ -310,7 +309,7 @@ router.route('/getrealip').post(function (req, res) {
          req.connection.remoteAddress || 
          req.socket.remoteAddress || 
          req.connection.socket.remoteAddress
-    console.log(ip);
+    console.log(ip,req.headers,req.connection,req.socket);
 })
 
 module.exports = router;
