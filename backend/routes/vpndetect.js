@@ -34,59 +34,65 @@ router.route('/vpnports').post(async (req, res) => {
         //scanning
 
         nmap.scan(opts, function (err, report) {
+
             //handle later
-            if (err) {
-                res.status(500).json({ msg: "Some error occured", err: err.message })
-            }
-
-            
-
-            for (let item in report) {
-                if(report[item].runstats[0].hosts[0].item.up == "1"){
-                    // console.log(JSON.stringify(report[item].runstats[0].hosts[0].item.up, null, 2), "sent stats");
-                    // console.log(JSON.stringify(report[item], null, 2), "print");
-
-                    // console.log("sent");
-
-                    /**
-                     * hostname is array of hostnames with item object, name & type as child key
-                     * "hostname": [
-                            {
-                            "item": {
-                                "name": "oushu.schotomacs.com",
-                                "type": "PTR"
-                            }
-                            }
-                        ]
-                     * 
-                     * 
-                     * 
-                     * 
-                     */
-                    res.json({
-                            ports:report[item].host[0].ports[0].port,
-                            hostname:report[item].host[0].hostnames[0].hostname,
-                            status: "up"
-                        });
+            try {
+                if (err) {
+                    res.status(500).json({ msg: "Some error occured", err: err.message })
                 }
-                else{
-                    res.json({ status: "down" });
-                }
-                // console.log(JSON.stringify(report[item].runstats[0].hosts[0].item.up, null, 2), "out");
-                // console.log(report[item].host.status[0].item.state)
-
-                // if host is down
-                // if (report[item].host.status[0].item.state !== "down" || report[item]) {
-                //     console.log(report[item],"down");
-                //     res.json({ status: "Down" });
-                // }else{
-                //     //response is here
-                //     console.log("sent");
-                //     res.json({response:report[item].host.ports[0].port});
-                    
-                // }
+    
                 
+    
+                for (let item in report) {
+                    if(report[item].runstats[0].hosts[0].item.up == "1"){
+                        // console.log(JSON.stringify(report[item].runstats[0].hosts[0].item.up, null, 2), "sent stats");
+                        // console.log(JSON.stringify(report[item], null, 2), "print");
+    
+                        // console.log("sent");
+    
+                        /**
+                         * hostname is array of hostnames with item object, name & type as child key
+                         * "hostname": [
+                                {
+                                "item": {
+                                    "name": "oushu.schotomacs.com",
+                                    "type": "PTR"
+                                }
+                                }
+                            ]
+                         * 
+                         * 
+                         * 
+                         * 
+                         */
+                        res.json({
+                                ports:report[item].host[0].ports[0].port,
+                                hostname:report[item].host[0].hostnames[0].hostname,
+                                status: "Host is Up"
+                            });
+                    }
+                    else{
+                        res.json({ status: "Host is down", msg: "Host is down", ports:[] });
+                    }
+                    // console.log(JSON.stringify(report[item].runstats[0].hosts[0].item.up, null, 2), "out");
+                    // console.log(report[item].host.status[0].item.state)
+    
+                    // if host is down
+                    // if (report[item].host.status[0].item.state !== "down" || report[item]) {
+                    //     console.log(report[item],"down");
+                    //     res.json({ status: "Down" });
+                    // }else{
+                    //     //response is here
+                    //     console.log("sent");
+                    //     res.json({response:report[item].host.ports[0].port});
+                        
+                    // }
+                    
+                }
+            } catch (error) {
+                res.status(500).json({ msg: "Host is down", err: error.message });
             }
+            
         });
 
 
@@ -221,7 +227,7 @@ router.route('/ipsearch').post(async (req, res) => {
         console.log("GetModuleVersion: " + ip2proxy.getModuleVersion());
         console.log("GetPackageVersion: " + ip2proxy.getPackageVersion());
         console.log("GetDatabaseVersion: " + ip2proxy.getDatabaseVersion());
-        res.json({isProxy:isProxy});
+        res.json({result:isProxy});
 
     } catch (error) {
         res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
