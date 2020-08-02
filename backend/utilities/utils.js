@@ -1,5 +1,6 @@
 const whoisjson = require('whois-json');
-utils = {
+const axios = require('axios');
+module.exports = {
     /**
      * 
      * @param {String} url 
@@ -43,6 +44,14 @@ utils = {
         } catch (error) {
             return false;
         }
-    }
+    },
+    MLModel2Check: function (host) {
+        let toCheck = 'https://ipqualityscore.com/api/json/ip/zUqnfFUGTHCSwQOF7TO3mb8oJHf5JF0E/' + host;
+        return axios.get(toCheck);
+    },
+    MLModel1Check: function (host) {
+        let toCheck = 'http://check.getipintel.net/check.php?ip='+host+'&contact=aniket.g@gmail.com';
+        
+        return axios.get(toCheck);
+    },
 }
-module.exports = utils;
