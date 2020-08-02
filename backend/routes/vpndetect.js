@@ -1,4 +1,5 @@
 const vpnCheck = require('../utilities/vpnCheck')
+const utils = require('../utilities/utils')
 const router = require('express').Router();
 // const path = require('path')
 const nmap = require('libnmap');
@@ -11,6 +12,8 @@ const fs = require('fs');
 const checkIp = './MLServerCode/scripts/checkIp.py'
 const predict = './MLServerCode/scripts/predict.py'
 const listOfIps = './MLServerCode/scripts/ips.txt'
+const whoisjson = require('whois-json');
+
 
     /**vpn port scan
      * 
@@ -233,6 +236,64 @@ router.route('/ipsearch').post(async (req, res) => {
         console.log("GetPackageVersion: " + ip2proxy.getPackageVersion());
         console.log("GetDatabaseVersion: " + ip2proxy.getDatabaseVersion());
         res.json({result:isProxy});
+
+    } catch (error) {
+        res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
+    }
+
+});
+
+/**check(ml) running for organisation
+ * 
+ * @param {String} hostipaddr 
+ */
+router.route('/checkorg').post(async (req, res) => {
+    try {
+        let host = req.body && typeof req.body.host === 'string' ? req.body.host : "";
+        if (!host) {
+            return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
+        }
+        // if (!utils.isValidIPaddress(host)) {
+        //     host = utils.extractHostname(host);
+        //     // res.json(host)
+        //     console.log(host);
+        // }
+        const result = await whoisjson(host);
+        const stringResult = {"orgName":result.orgName}
+
+        // res.json(stringResult);
+
+        var dataToSend;
+        // spawn new child process to call the python script
+        const pythonExec = exec(`python ./scripts/checkOrg.py ${stringResult}`, { cwd: "./MLServerCode/" }, function (err, stdout, stderr) {
+            if (stdout) {
+                dataToSend = stdout;
+                dataToSend = dataToSend == 'true' ? 1 : 0;
+                res.json({ result: dataToSend });
+                return;
+            }
+            else if (err) {
+                res.status(500).json({ msg: "Some error occured. Please try again later", err: err.message });
+                return;
+            }
+            else {
+                res.status(500).json({ msg: "Some error occured. Please try again later", err: "" });
+
+            }
+        });
+        // collect data from script
+        // python.stdout.on('data', function (data) {
+        //     console.log('Pipe data from python script ...');
+        //     dataToSend = data.toString();
+        // });
+        // // in close event we are sure that stream from child process is closed
+        // python.on('close', (code) => {
+        //     console.log(`child process close all stdio with code ${code}`);
+        //     // send data to browser
+        //     res.json({ checkIp: dataToSend })
+        // });
+
+
 
     } catch (error) {
         res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });
