@@ -7,6 +7,8 @@ const { spawn, exec, execFile } = require('child_process');
 const { response } = require('express');
 axios = require('axios');
 var ip2proxy = require("ip2proxy-nodejs");
+const whoisjson = require('whois-json');
+const { route } = require('./whois');
 const fs = require('fs');
 
 const checkIp = './MLServerCode/scripts/checkIp.py'
@@ -215,7 +217,7 @@ router.route('/intelscore').post(async (req, res) => {
 
 //local search
 
-ip2proxy.Open("../data/IP2PROXY-IP-COUNTRY.BIN");
+ip2proxy.Open("../data/large.BIN");
 /**  local search
 *
 * @param {string} host
@@ -323,5 +325,14 @@ router.post('/checkonlinedata', (req, res) => {
     res.json({result:result});
 });
 
+
+router.route('/getrealip').post(function (req, res) {
+    // need access to IP address here
+    var ip = (req.headers['x-forwarded-for'] || '').split(',').pop().trim() || 
+         req.connection.remoteAddress || 
+         req.socket.remoteAddress || 
+         req.connection.socket.remoteAddress
+    console.log(ip);
+})
 
 module.exports = router;
