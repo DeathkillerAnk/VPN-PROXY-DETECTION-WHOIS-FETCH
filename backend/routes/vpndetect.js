@@ -17,8 +17,6 @@ const listOfIps = './MLServerCode/scripts/ips.txt'
 const vpnIps = './MLServerCode/scripts/IPv4_VPNs.txt'
 
 
-const whoisjson = require('whois-json');
-
 
     /**vpn port scan
      * 

@@ -84,7 +84,7 @@ export default class Analytics extends Component {
                                     Training Dataset
                                 </Typography>
                                 <Typography variant="h3" >
-                                    {this.state.analyticsData.testData}
+                                    {this.state.analyticsData.trainData}
                                 </Typography>
                             </CardContent>
                         </Card>
