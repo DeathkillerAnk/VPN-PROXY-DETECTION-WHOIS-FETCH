@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './advance.css'
-import { Paper, Grid, TextField, InputAdornment, IconButton, Typography } from '@material-ui/core';
+import { Paper, Grid, TextField, InputAdornment, IconButton, Typography, Button } from '@material-ui/core';
 import { SearchRounded as SearchIcon } from "@material-ui/icons";
 import axios from 'axios';
 import { LoadingContext } from '../Context/LoadingContext';
@@ -11,8 +11,9 @@ export default class Advance extends Component {
         super(props)
         this.state = {
             advancesearch: '',
-            searchResult: [],
+            searchResult: '',
             nmapData: { status: "", ports: [] },
+
         }
     }
 
@@ -26,6 +27,34 @@ export default class Advance extends Component {
             [event.target.name]: event.target.value
         })
     })
+    quickScan = async (ip) => {
+        try {
+            this.context.showSpinner();
+            const { data, status } = await axios.post('/api/advancedsearch/quickscan', { host: this.state.advancesearch }, { validateStatus: () => true });
+            this.context.hideSpinner();
+            if (status !== 200) {
+                this.context.showSnackBar(data.msg);
+                return;
+            }
+            this.setState({ searchResult: data });
+        } catch (error) {
+
+        }
+    }
+    fullScan = async (ip) => {
+        try {
+            this.context.showSpinner();
+            const { data, status } = await axios.post('/api/advancedsearch/quickscan', { host: this.state.advancesearch }, { validateStatus: () => true });
+            this.context.hideSpinner();
+            if (status !== 200) {
+                this.context.showSnackBar(data.msg);
+                return;
+            }
+            this.setState({ searchResult: data });
+        } catch (error) {
+
+        }
+    }
     fetchNmapData = async (ip) => {
         try {
             this.context.showSpinner();
@@ -61,40 +90,27 @@ export default class Advance extends Component {
                                 onChange={this.handleInputChange}
                                 onKeyPress={(ev) => {
                                     if (ev.key === 'Enter') {
-                                        this.handleSubmit();
+                                        this.quickScan(this.state.advancesearch)
                                         ev.preventDefault();
                                     }
                                 }}
-                                InputProps={{
-                                    endAdornment:
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={this.handleSubmit}>
-                                                <SearchIcon />
-                                            </IconButton>
-                                        </InputAdornment>
-                                }}
+
                             />
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} sm={6} className="text-center">
+                        <Button variant="contained" color="primary" onClick={this.quickScan.bind(this, this.state.searchResult)}>Quick Scan</Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6} className="text-center">
+                        <Button variant="contained" color="primary" onClick={this.fullScan.bind(this, this.state.searchResult)}>Full Scan</Button>
+                    </Grid>
+                    <Grid item xs={12} className="mt-3">
                         <Paper variant="outlined" className="p-2">
-                            <Typography className="text-center" variant="h5">Port Scan Detials</Typography>
-                            {this.state.nmapData.ports.map((nmap) =>
-                                <div className="detailscard">
-                                    <div className="d1">
-                                        <p>Protocol : {nmap.item.protocol}</p>
-                                        <p>Portid : {nmap.item.portid}</p>
+                            <Typography variant="h5">Results</Typography>
+                            <pre style={{ fontSize: "1rem" }}>
+                                {JSON.stringify(this.state.searchResult, null, 4)}
 
-                                    </div>
-
-                                    <div className="d2">
-                                        <p>State: {nmap.state[0].item.state}</p>
-                                        <p>Service name : {nmap.service[0].item.name}</p>
-                                    </div>
-                                </div>
-
-                            )}
-
+                            </pre>
                         </Paper>
                     </Grid>
                 </Grid>

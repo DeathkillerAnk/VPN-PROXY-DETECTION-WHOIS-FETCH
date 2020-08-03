@@ -1,121 +1,156 @@
-747020 total no of IPs processed
+441465 total no of IPs processed
 
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 109
-        nFailed: 746911
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 193
+        nFailed: 441272
         ========================================
         Re attempting 40
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 118
-        nFailed: 746902
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 418
+        nFailed: 441047
         ========================================
         Re attempting 39
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 160
-        nFailed: 746860
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 544
+        nFailed: 440921
         ========================================
         Re attempting 38
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 173
-        nFailed: 746847
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 588
+        nFailed: 440877
         ========================================
         Re attempting 37
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 330
-        nFailed: 746690
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 643
+        nFailed: 440822
         ========================================
         Re attempting 36
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 413
-        nFailed: 746607
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 643
+        nFailed: 440822
         ========================================
         Re attempting 35
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 448
-        nFailed: 746572
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 649
+        nFailed: 440816
         ========================================
         Re attempting 34
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 495
-        nFailed: 746525
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 667
+        nFailed: 440798
         ========================================
         Re attempting 33
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 646
-        nFailed: 746374
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 695
+        nFailed: 440770
         ========================================
         Re attempting 32
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 764
-        nFailed: 746256
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 695
+        nFailed: 440770
         ========================================
         Re attempting 31
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 1011
-        nFailed: 746009
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 757
+        nFailed: 440708
         ========================================
         Re attempting 30
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 1011
-        nFailed: 746009
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 798
+        nFailed: 440667
         ========================================
         Re attempting 29
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 1084
-        nFailed: 745936
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 819
+        nFailed: 440646
         ========================================
         Re attempting 28
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 1084
-        nFailed: 745936
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 916
+        nFailed: 440549
         ========================================
         Re attempting 27
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 1159
-        nFailed: 745861
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 979
+        nFailed: 440486
         ========================================
         Re attempting 26
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 1159
-        nFailed: 745861
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 979
+        nFailed: 440486
         ========================================
         Re attempting 25
         ======== Reattempts Pending ==============
-        nProcessed: 747020
-        nNotProcessed: 2
-        nFetched: 1159
-        nFailed: 745861
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 991
+        nFailed: 440474
         ========================================
         Re attempting 24
+        ======== Reattempts Pending ==============
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 1058
+        nFailed: 440407
+        ========================================
+        Re attempting 23
+        ======== Reattempts Pending ==============
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 1091
+        nFailed: 440374
+        ========================================
+        Re attempting 22
+        ======== Reattempts Pending ==============
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 1103
+        nFailed: 440362
+        ========================================
+        Re attempting 21
+        ======== Reattempts Pending ==============
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 1109
+        nFailed: 440356
+        ========================================
+        Re attempting 20
+        ======== Reattempts Pending ==============
+        nProcessed: 441465
+        nNotProcessed: 1
+        nFetched: 1152
+        nFailed: 440313
+        ========================================
+        Re attempting 19

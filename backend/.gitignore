@@ -2,4 +2,9 @@
 /data
 /data/IP2PROXY-IP-COUNTRY.BIN
 /datalarge.BIN
+/MLServerCode/scripts/GeoLite2-ASN-CSV_20200728
+/MLServerCode/scripts/GeoLite2-Country-CSV_20200728
+/MLServerCode/scripts/maxmind-geolite2-asn
+/MLServerCode/scripts/maxmind-geolite2-country
+
 

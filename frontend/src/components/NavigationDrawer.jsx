@@ -72,7 +72,7 @@ export default function NavigationDrawer(props) {
         history.push(route);
     }
 
-    const menuItems = [{ text: "VPN Detector", path: "/", icon: <VpnIcon /> }, { text: "Fetch Whois", path: "/whois", icon: <WhoisIcon /> }, { text: "Advance Scan", path: "/advancesearch", icon: <AdvanceSearchIcon /> }, { text: "Analytics", path: "/analytics", icon: <AnalyticsIcon /> }, { text: "Batch Process", path: "/batchprocess", icon: <BatchProcessIcon /> }];
+    const menuItems = [{ text: "VPN/Proxy Detector", path: "/", icon: <VpnIcon /> }, { text: "Fetch Whois", path: "/whois", icon: <WhoisIcon /> }, { text: "Advance Scan", path: "/advancesearch", icon: <AdvanceSearchIcon /> }, { text: "Analytics", path: "/analytics", icon: <AnalyticsIcon /> }, { text: "Batch Process", path: "/batchprocess", icon: <BatchProcessIcon /> }];
 
 
     const drawer = (
@@ -109,7 +109,7 @@ export default function NavigationDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        IP Forensic  - {title ? title : "Vpn Detector"}
+                        IP Forensic  - {title ? title : "Vpn/Proxy Detector"}
                     </Typography>
                 </Toolbar>
             </AppBar>

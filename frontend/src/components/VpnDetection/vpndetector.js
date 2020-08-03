@@ -84,6 +84,13 @@ export default class Vpndetector extends Component {
                 feedbackData.checkMLModel2Value = "Couldn't find";
                 this.setState({ feedbackData: feedbackData })
             }
+            else if (data.status == "Host is Up") {
+                let feedbackData = { ...this.state.feedbackData };
+                if (feedbackData.checkMLModel2Value < 0.5)
+                    feedbackData.checkMLModel2Value = 0.5;
+                this.setState({ feedbackData: feedbackData })
+                console.log("running here")
+            }
             this.context.showSnackBar("Port scanning done");
         } catch (error) {
             this.context.hideSpinner();
@@ -270,6 +277,8 @@ export default class Vpndetector extends Component {
             avgValScore *= 100;
             avgValScore = avgValScore.toFixed(2);
             let tempVpnValue = avgValScore;
+            let ipModelAvgScore = (allResponses[2] + allResponses[3]) / 2;
+
 
             // ============= Changing State ================
             let ipType = tempVpnValue <= 50 ? "Good" : "Bad";
@@ -289,6 +298,8 @@ export default class Vpndetector extends Component {
 
             let feedbackData = { ...this.state.feedbackData };
             feedbackData.isResultFetched = true;
+            if (avgValScore > 0 && allResponses[2] == 0)
+                feedbackData.checkMLModel1Value = ipModelAvgScore;
             feedbackData.ipType = ipType;
             feedbackData.ipTypeColor = ipTypeColor;
             this.setState({ result: { vpnValue: tempVpnValue, ipType: ipType, ipTypeColor: ipTypeColor }, feedbackData: feedbackData });
@@ -439,13 +450,13 @@ export default class Vpndetector extends Component {
                             <p className="text-center"><Typography variant="h5">Detection Modules</Typography></p>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} md={6} >
-                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showCheckIpSpinner && <CircularProgress size="1rem" />}&nbsp; IP Check: &nbsp; <Chip size="small" color={this.state.feedbackData.checkIpValue == '1' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkIpValue} /> </Typography></p>
-                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showCheckCidrSpinner && <CircularProgress size="1rem" />}&nbsp; CIDR Check: &nbsp; <Chip size="small" color={this.state.feedbackData.checkCidrValue == '1' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkCidrValue} /> </Typography></p>
-                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showCheckThirdPartyDatasetSpinner && <CircularProgress size="1rem" />}&nbsp; Online Dataset Check: &nbsp; <Chip size="small" color={this.state.feedbackData.checkThirdPartyDatasetValue == '1' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkThirdPartyDatasetValue} /> </Typography></p>
+                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showCheckIpSpinner && <CircularProgress size="1rem" />}&nbsp; IP Check: &nbsp; <Chip size="small" color={this.state.feedbackData.checkIpValue >= '0.5' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkIpValue} /> </Typography></p>
+                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showCheckCidrSpinner && <CircularProgress size="1rem" />}&nbsp; CIDR Check: &nbsp; <Chip size="small" color={this.state.feedbackData.checkCidrValue >= '0.5' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkCidrValue} /> </Typography></p>
+                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showCheckThirdPartyDatasetSpinner && <CircularProgress size="1rem" />}&nbsp; Online Dataset Check: &nbsp; <Chip size="small" color={this.state.feedbackData.checkThirdPartyDatasetValue >= '0.5' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkThirdPartyDatasetValue} /> </Typography></p>
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showMLModel1Spinner && <CircularProgress size="1rem" />}&nbsp; IP ML Model: &nbsp; <Chip size="small" color={this.state.feedbackData.checkMLModel1Value == '1' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkMLModel1Value} /> </Typography></p>
-                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showMLModel2Spinner && <CircularProgress size="1rem" />}&nbsp; NMap ML model: &nbsp; <Chip size="small" color={this.state.feedbackData.checkMLModel2Value == '1' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkMLModel2Value} /> </Typography></p>
+                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showMLModel1Spinner && <CircularProgress size="1rem" />}&nbsp; IP ML Model: &nbsp; <Chip size="small" color={this.state.feedbackData.checkMLModel1Value >= '0.5' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkMLModel1Value} /> </Typography></p>
+                                    <p><Typography variant="subtitle1">{this.state.feedbackData.showMLModel2Spinner && <CircularProgress size="1rem" />}&nbsp; NMap ML model: &nbsp; <Chip size="small" color={this.state.feedbackData.checkMLModel2Value >= '0.5' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkMLModel2Value} /> </Typography></p>
 
                                 </Grid>
                             </Grid>
