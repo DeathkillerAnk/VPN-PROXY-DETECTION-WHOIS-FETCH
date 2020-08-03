@@ -107,10 +107,10 @@ export default class Analytics extends Component {
                         <Card >
                             <CardContent>
                                 <Typography variant="h6" color="textSecondary" gutterBottom>
-                                    Model accuracy
+                                    Model Accuracy
                                 </Typography>
                                 <Typography variant="h3">
-                                    70%
+                                    80% - 95%
                                 </Typography>
                             </CardContent>
                         </Card>

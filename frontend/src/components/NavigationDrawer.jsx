@@ -62,7 +62,15 @@ export default function NavigationDrawer(props) {
     let history = useHistory();
 
     let title = location.pathname.slice(1);
-    title = title ? title[0].toUpperCase() + title.slice(1) : undefined;
+    // Changing the title ====================
+    if (title == 'advancesearch')
+        title = 'Advance Search';
+    if (title == 'whois')
+        title = 'Whois Fetch';
+    if (title == 'batchprocess')
+        title = 'Batch Processes'
+    if (title == 'analytics')
+        title = 'Analytics'
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -72,7 +80,7 @@ export default function NavigationDrawer(props) {
         history.push(route);
     }
 
-    const menuItems = [{ text: "VPN/Proxy Detector", path: "/", icon: <VpnIcon /> }, { text: "Fetch Whois", path: "/whois", icon: <WhoisIcon /> }, { text: "Advance Scan", path: "/advancesearch", icon: <AdvanceSearchIcon /> }, { text: "Analytics", path: "/analytics", icon: <AnalyticsIcon /> }, { text: "Batch Process", path: "/batchprocess", icon: <BatchProcessIcon /> }];
+    const menuItems = [{ text: "VPN/Proxy Detector", path: "/", icon: <VpnIcon /> }, { text: "Whois Fetch", path: "/whois", icon: <WhoisIcon /> }, { text: "Advance Scan", path: "/advancesearch", icon: <AdvanceSearchIcon /> }, { text: "Analytics", path: "/analytics", icon: <AnalyticsIcon /> }, { text: "Batch Processes", path: "/batchprocess", icon: <BatchProcessIcon /> }];
 
 
     const drawer = (
@@ -109,7 +117,7 @@ export default function NavigationDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        IP Forensic  - {title ? title : "Vpn/Proxy Detector"}
+                        CodeOnSteroids  - {title ? title : "Vpn/Proxy Detector"}
                     </Typography>
                 </Toolbar>
             </AppBar>

@@ -164,7 +164,7 @@ export default class Whois extends Component {
             </div>
           </Grid>
           <Grid item xs={12}>
-            <p className="dd text-center">Domain details</p>
+            <p className="dd text-center">Domain Details</p>
             <div className="card3 p-3">
               {/* <p className="whocolumn1"><NumberList1 data={data} />
               </p>

@@ -197,7 +197,7 @@ router.route('/intelscore').post(async (req, res) => {
             return res.status(400).json({ msg: "Please provide a host name of ip addresss" });
         }
         
-        // let key = mcfLlGm2jceQIvqZpc4hmKzkLuuUHtK8;
+        
         MLModel1Check(host).then(response => {
                 // console.log(response.data);
                 res.json({ result: response.data });
@@ -205,7 +205,7 @@ router.route('/intelscore').post(async (req, res) => {
                     fs.appendFileSync(listOfIps, host + '\n');
                 }
             })
-            .catch(error=>{console.log(error);res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
+            .catch(error=>{res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });})
 
     } catch (error) {
         res.status(500).json({ msg: "Some error occured. Please try again later", err: error.message });

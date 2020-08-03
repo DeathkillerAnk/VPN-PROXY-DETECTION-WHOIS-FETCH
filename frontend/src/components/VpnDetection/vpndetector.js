@@ -430,8 +430,8 @@ export default class Vpndetector extends Component {
                     {/* ============= Host Details =========================== */}
                     <Grid item xs={12} md={6}>
                         <Paper variant="outlined" className="p-2">
-                            <Typography className="text-center" variant="h5">Host details</Typography>
-                            <Typography variant="h6" className="blinking" >{this.state.nmapData.status}</Typography>
+                            <Typography className="text-center" variant="h5">Port Scanning</Typography>
+                            <Typography variant="h6" className="blinking" >{this.state.nmapData.status!="" && this.state.nmapData.status == 'Host is Up' ? 'Port Scanning Successful' : ''}</Typography>
                             {
                                 this.state.ipDetails.proxy !== undefined && (
                                     <React.Fragment>
@@ -447,7 +447,7 @@ export default class Vpndetector extends Component {
                     {/* ===================== Feddback for different Modules ====================== */}
                     <Grid item xs={12}>
                         <Paper variant="outlined" className="p-3">
-                            <p className="text-center"><Typography variant="h5">Detection Modules</Typography></p>
+                            <p className="text-center"><Typography variant="h5">Detection Scores</Typography></p>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} md={6} >
                                     <p><Typography variant="subtitle1">{this.state.feedbackData.showCheckIpSpinner && <CircularProgress size="1rem" />}&nbsp; IP Check: &nbsp; <Chip size="small" color={this.state.feedbackData.checkIpValue >= '0.5' ? "secondary" : "success"} clickable label={this.state.feedbackData.checkIpValue} /> </Typography></p>
@@ -507,7 +507,7 @@ export default class Vpndetector extends Component {
                             </table>
                         </Paper> */}
                         <Paper variant="outlined" className="p-2">
-                            <Typography className="text-center" variant="h5">IP Detials</Typography>
+                            <Typography className="text-center" variant="h5">IP Details</Typography>
                             <table className="vpntable text-break">
                                 {
                                     Object.keys(this.state.ipDetails).map(key => (
@@ -526,7 +526,7 @@ export default class Vpndetector extends Component {
                     {/* =================== NMAP Details ================================== */}
                     <Grid item xs={12} md={6}>
                         <Paper variant="outlined" className="p-2">
-                            <Typography className="text-center" variant="h5">Port Scan Detials</Typography>
+                            <Typography className="text-center" variant="h5">Port Scan Details</Typography>
                             {this.state.nmapData.ports.map((nmap) =>
                                 <div className="detailscard">
                                     <div className="d1">
