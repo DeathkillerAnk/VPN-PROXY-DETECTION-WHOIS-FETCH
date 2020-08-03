@@ -43,12 +43,15 @@ export default class Vpndetector extends Component {
     }
 
     toSentenceCase = (s) => {
-        let result = s.replace(/([-_][a-z])/ig, ($1) => {
-            return $1.toUpperCase()
-                .replace('-', '')
-                .replace('_', ' ');
-        });
-        return result.charAt(0) + result.slice(1);
+        let result = function remove_(s) {
+            let result = s.replace(/([-_][a-z])/ig, ($1) => {
+                return $1.toUpperCase()
+                    .replace('-', '')
+                    .replace('_', ' ');
+            });
+            return result;
+        }(s);
+        return result.charAt(0).toUpperCase() + result.slice(1);
     };
 
     handleSubmit = () => {
@@ -83,6 +86,7 @@ export default class Vpndetector extends Component {
             }
             this.context.showSnackBar("Port scanning done");
         } catch (error) {
+            this.context.hideSpinner();
             this.context.showSnackBar("Error occured while scanning ports");
         }
 
@@ -243,12 +247,12 @@ export default class Vpndetector extends Component {
 
     checkVpn = async (ip) => {
         try {
-            const queries = [this.checkIp(ip),this.checkCidr(ip), this.checkMLModel1(ip), this.checkMLModel2(ip), this.checkThirdPartyDataset(ip)];
+            const queries = [this.checkIp(ip), this.checkCidr(ip), this.checkMLModel1(ip), this.checkMLModel2(ip), this.checkThirdPartyDataset(ip)];
             const allResponses = await Promise.all(queries);
             // =========== Calculating avg ===============
             let avgValScore = 0;
             let totalN = 0;
-            let weights = [1,1, 10, 8, 2]
+            let weights = [1, 1, 10, 8, 2]
             console.log(allResponses);
             for (let i = 0; i < allResponses.length; i++) {
                 const response = allResponses[i];
@@ -263,9 +267,9 @@ export default class Vpndetector extends Component {
             if (isNaN(avgValScore)) {
                 avgValScore = 0;
             }
-            avgValScore*=100;
+            avgValScore *= 100;
             avgValScore = avgValScore.toFixed(2);
-            let tempVpnValue = avgValScore ;
+            let tempVpnValue = avgValScore;
 
             // ============= Changing State ================
             let ipType = tempVpnValue <= 50 ? "Good" : "Bad";

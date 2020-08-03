@@ -58,7 +58,7 @@ export default class Analytics extends Component {
                                     Total Dataset
                                 </Typography>
                                 <Typography variant="h3">
-                                    50000
+                                    441465
                                 </Typography>
                             </CardContent>
                         </Card>
