@@ -14,6 +14,8 @@ const fs = require('fs');
 const checkIp = './MLServerCode/scripts/checkIp.py'
 const predict = './MLServerCode/scripts/predict.py'
 const listOfIps = './MLServerCode/scripts/ips.txt'
+const vpnIps = './MLServerCode/scripts/IPv4_VPNs.txt'
+
 
 
     /**vpn port scan
