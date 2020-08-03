@@ -330,7 +330,7 @@ router.route('/getrealip').post(function (req, res) {
          req.connection.remoteAddress || 
          req.socket.remoteAddress || 
          req.connection.socket.remoteAddress
-    console.log(ip);
+    console.log(ip,req.headers,req.connection,req.socket);
 })
 
 module.exports = router;
