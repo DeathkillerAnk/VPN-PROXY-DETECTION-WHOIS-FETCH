@@ -38,7 +38,8 @@ fs.writeFileSync("failedIps.txt", "");
 rl.on('line', function (host) {
     ++nTotal;
     if (utils.isValidIPaddress(host)) {
-        ipsArray.push(host);
+        if(ipsArray.length<5001)
+            ipsArray.push(host);
         ++nProcessed;
     } else {
         // printLogs && fs.appendFileSync(logFileName, "Host " + host + " not processed\n");

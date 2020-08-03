@@ -8,14 +8,14 @@ module.exports = {
                 console.log(stdout);
             }
             console.log("Generate whois and train model Cron Job Finished");
-            fs.writeFileSync('./MLServerCode/scripts/ips.txt', ''); //clear the file
+            fs.writeFileSync('./MLServerCode/scripts/ips.txt', '3.0.0.1\n'); //clear the file
         })
     },
     fetchOnlineDatasetsCronJob: function () {
         fs.writeFileSync(listOfIps, '');
         try {
-
             fs.unlinkSync('./MLServerCode/scripts/maxmind-geolite2-asn')
+            fs.unlinkSync('./MLServerCode/scripts/maxmind-geolite2-country')
         } catch (error) {
 
         }
