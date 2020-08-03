@@ -1,9 +1,16 @@
-4 total no of IPs processed
+305554 total no of IPs processed
 
-        =============== END ====================
-        nProcessed: 4
-        nNotProcessed: 0
-        nFetched: 4
-        nFailed: 0
+        ======== Reattempts Pending ==============
+        nProcessed: 305554
+        nNotProcessed: 1
+        nFetched: 229
+        nFailed: 305325
         ========================================
-        
+        Re attempting 40
+        ======== Reattempts Pending ==============
+        nProcessed: 305554
+        nNotProcessed: 1
+        nFetched: 255
+        nFailed: 305299
+        ========================================
+        Re attempting 39
